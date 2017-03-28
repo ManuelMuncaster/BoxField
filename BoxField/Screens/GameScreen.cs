@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace BoxField
 {
@@ -14,20 +15,19 @@ namespace BoxField
     {
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, downArrowDown, rightArrowDown, upArrowDown, bDown, nDown, mDown, spaceDown;
-
         //used to draw boxes on screen
-        SolidBrush boxBrush = new SolidBrush(Color.FromArgb)
+        public static SolidBrush boxBrush = new SolidBrush(Color.White);
 
         //List to hold a column of boxes
         List<Box> boxes = new List<Box>();
 
         //Box Values
-        int boxSize, boxSpeed, newBoxCounter, boxColor;
+        public int boxSize, boxSpeed, newBoxCounter, color, red, green, blue;
 
         //hero Character
         Box hero;
         int heroSpeed, heroColor;
-
+        
         public GameScreen()
         {
             InitializeComponent();
@@ -43,17 +43,15 @@ namespace BoxField
             boxSpeed = 5;
             newBoxCounter = 0;
 
-            
-
-            Box b1 = new Box(200, -40, boxSize, boxSpeed, boxColor);
+            Box b1 = new Box(200, -40, boxSize, boxSpeed);
             boxes.Add(b1);
 
-            Box b2 = new Box(500, -40, boxSize, boxSpeed, boxColor);
+            Box b2 = new Box(500, -40, boxSize, boxSpeed);
             boxes.Add(b2);
 
             //set hero values at start of game
             heroSpeed = 7;
-            hero = new Box(this.Width / 2 - boxSize / 2, 400, boxSize, heroSpeed, heroColor);
+            hero = new Box(this.Width / 2 - boxSize / 2, 400, boxSize, heroSpeed);
 
         }
 
@@ -62,6 +60,7 @@ namespace BoxField
             //player 1 button presses
             switch (e.KeyCode)
             {
+                
                 case Keys.Left:
                     leftArrowDown = true;
                     break;
@@ -125,30 +124,91 @@ namespace BoxField
             }
         }
 
+        //private void moveTimer_Tick(object sender, EventArgs e)
+        //{
+        //    int direction, x1, x2;
+
+        //    Random randGen = new Random();
+        //    direction = randGen.Next(1, 3);
+
+        //    if (direction == 1)
+        //    {
+        //        x1 = x1 + 25;
+        //    }
+        //    if (direction == 2)
+        //    {
+        //        x1 = x1 - 25;
+        //    }
+
+        //    direction = 0;
+        //}
+
         private void gameLoop_Tick(object sender, EventArgs e)
         {
             //update location of all boxes (drop down screen)
             foreach (Box b in boxes)
             {
                 b.Move();
+                //b.moveDirection(); HARD MODE! Only un-comment if you want a challenge!   
             }
-
-            //remove box if it has gone of screen
 
             //add new box if it is time
 
             newBoxCounter++;
 
-            if(newBoxCounter == 5)
+            if (newBoxCounter == 5)
             {
-                Box b1 = new Box(200, -40, boxSize, boxSpeed, boxColor);
+                Box b1 = new Box(200, -40, boxSize, boxSpeed);
                 boxes.Add(b1);
 
-                Box b2 = new Box(500, -40, boxSize, boxSpeed, boxColor);
+                Box b2 = new Box(500, -40, boxSize, boxSpeed);
                 boxes.Add(b2);
+            }
 
+            if (newBoxCounter == 8)
+            {
                 Random randGen = new Random();
-                boxColor = randGen.Next(1, 3); 
+
+                color = randGen.Next(1, 7);
+
+                if (color == 1)
+                {
+                    red = 255;
+                    blue = 255;
+                    green = 0;
+                }
+                if (color == 2)
+                {
+                    red = 255;
+                    blue = 0;
+                    green = 0;
+                }
+                if (color == 3)
+                {
+                    red = 255;
+                    blue = 80;
+                    green = 0;
+                }
+                if (color == 4)
+                {
+                    red = 255;
+                    blue = 195;
+                    green = 0;
+                }
+                if (color == 5)
+                {
+                    red = 0;
+                    blue = 255;
+                    green = 0;
+                }
+                if (color == 6)
+                {
+                    red = 0;
+                    blue = 0;
+                    green = 255;
+                }
+
+                boxBrush.Color = Color.FromArgb(255, red, blue, green);
 
                 newBoxCounter = 0;
             }
@@ -185,6 +245,7 @@ namespace BoxField
                     gameLoop.Stop();
                 }
             }
+         
 
             Refresh();
         }

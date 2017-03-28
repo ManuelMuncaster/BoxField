@@ -9,24 +9,40 @@ namespace BoxField
 {
     public class Box
     {
-        public int x, y, size, speed, color;
+        public int x, y, size, speed, color, red, blue, green, direction;
 
         /// <summary>
         /// Bob the Builder method for a ball object
         /// </summary>
         /// <param name="_x">sets the initial x coordinate</param>
         /// <param name="_y">sets the initial y coordinate</param>
-        public Box (int _x, int _y, int _size, int _speed, int _color)
+        public Box (int _x, int _y, int _size, int _speed)
         {
             x = _x;
             y = _y;
             size = _size;
             speed = _speed;
-            color = _color;
         }
         public void Move()
         {
             y = y + speed;
+        }
+
+        public void moveDirection()
+        {
+            Random randGen = new Random();
+            direction = randGen.Next(1, 3);
+
+            if (direction == 1)
+            {
+                x = x + 25;
+            }
+            if (direction == 2)
+            {
+                x = x - 25;
+            }
+
+            direction = 0;
         }
 
         public void Move(string direction)
@@ -49,16 +65,5 @@ namespace BoxField
 
             return boxRec.IntersectsWith(heroRec);
         }
-
-        public void Color()
-        {
-            Random randGen = new Random();
-
-            color = randGen.Next(1, 3);
-
-        }
-
-
-
     }
 }
