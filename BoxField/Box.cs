@@ -9,7 +9,7 @@ namespace BoxField
 {
     public class Box
     {
-        public int x, y, size, speed, color, red, blue, green, direction;
+        public int x, y, size, speed, color, red, blue, green, direction, width, height;
 
         /// <summary>
         /// Bob the Builder method for a ball object
@@ -25,7 +25,7 @@ namespace BoxField
         }
         public void Move()
         {
-            y = y + speed;
+            x = x + speed;
         }
 
         public void moveDirection()
@@ -35,12 +35,13 @@ namespace BoxField
 
             if (direction == 1)
             {
-                x = x + 25;
+                x = x + 30;
             }
             if (direction == 2)
             {
-                x = x - 25;
+                x = x - 30;
             }
+
 
             direction = 0;
         }
@@ -56,12 +57,20 @@ namespace BoxField
             {
                 x = x + speed;
             }
+            if (direction == "up")
+            {
+                y = y - speed;
+            }
+            if (direction == "down")
+            {
+                y = y + speed;
+            }
         }
 
         public Boolean Collision (Box b)
         {
             Rectangle boxRec = new Rectangle(b.x, b.y, b.size, b.size);
-            Rectangle heroRec = new Rectangle(x, y, size, size);
+            Rectangle heroRec = new Rectangle(x, y, size, size); 
 
             return boxRec.IntersectsWith(heroRec);
         }

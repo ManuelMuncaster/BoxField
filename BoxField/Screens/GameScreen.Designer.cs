@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameLoop = new System.Windows.Forms.Timer(this.components);
+            this.colorLoop = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // gameLoop
@@ -37,6 +38,12 @@
             this.gameLoop.Enabled = true;
             this.gameLoop.Interval = 8;
             this.gameLoop.Tick += new System.EventHandler(this.gameLoop_Tick);
+            // 
+            // colorLoop
+            // 
+            this.colorLoop.Enabled = true;
+            this.colorLoop.Interval = 8;
+            this.colorLoop.Tick += new System.EventHandler(this.colorLoop_Tick);
             // 
             // GameScreen
             // 
@@ -56,5 +63,6 @@
         #endregion
 
         private System.Windows.Forms.Timer gameLoop;
+        private System.Windows.Forms.Timer colorLoop;
     }
 }

@@ -20,11 +20,13 @@ namespace BoxField
 
         //List to hold a column of boxes
         List<Box> boxes = new List<Box>();
+        List<Wall> walls = new List<Wall>();
+        Box topWall, bottomWall;
 
         //Box Values
-        public int boxSize, boxSpeed, newBoxCounter, color, red, green, blue;
+        public int boxSize, boxSpeed, newBoxCounter, colorCounter, color, red, green, blue;
 
-        //hero Character
+            //hero Character
         Box hero;
         int heroSpeed, heroColor;
         
@@ -42,12 +44,15 @@ namespace BoxField
             boxSize = 20;
             boxSpeed = 5;
             newBoxCounter = 0;
+            colorCounter = 0;
 
-            Box b1 = new Box(200, -40, boxSize, boxSpeed);
+            Box b1 = new Box(-40, 100, boxSize, boxSpeed);
+            Wall topWall = new Wall(-40, 0, 900, 5);
+            Wall bottomWall = new Wall(-40, 400, 900, 5);
             boxes.Add(b1);
 
-            Box b2 = new Box(500, -40, boxSize, boxSpeed);
-            boxes.Add(b2);
+       //     Box b2 = new Box(500, -40, boxSize, boxSpeed);
+       //     boxes.Add(b2);
 
             //set hero values at start of game
             heroSpeed = 7;
@@ -124,46 +129,86 @@ namespace BoxField
             }
         }
 
-        //private void moveTimer_Tick(object sender, EventArgs e)
-        //{
-        //    int direction, x1, x2;
-
-        //    Random randGen = new Random();
-        //    direction = randGen.Next(1, 3);
-
-        //    if (direction == 1)
-        //    {
-        //        x1 = x1 + 25;
-        //    }
-        //    if (direction == 2)
-        //    {
-        //        x1 = x1 - 25;
-        //    }
-
-        //    direction = 0;
-        //}
-
         private void gameLoop_Tick(object sender, EventArgs e)
         {
             //update location of all boxes (drop down screen)
             foreach (Box b in boxes)
             {
-                b.Move();
-                //b.moveDirection(); HARD MODE! Only un-comment if you want a challenge!   
+                b.Move(); 
             }
 
             //add new box if it is time
 
             newBoxCounter++;
 
-            if (newBoxCounter == 5)
+            if (newBoxCounter == 50)
             {
-                Box b1 = new Box(200, -40, boxSize, boxSpeed);
+                Box b1 = new Box(0, 100, boxSize, boxSpeed);
                 boxes.Add(b1);
 
-                Box b2 = new Box(500, -40, boxSize, boxSpeed);
-                boxes.Add(b2);
+                newBoxCounter = 0;
             }
+
+            if (boxes[0].x > this.Width - 20) 
+            {
+                boxes.RemoveAt(0);
+            }
+            
+            //hero collison with the sides of the screen
+            if (hero.x < -40)
+            {
+                hero.x = 900;
+            }
+            if (hero.x > 900)
+            {
+                hero.x = -40;
+            }
+
+            //move our hero
+            if(leftArrowDown == true)
+            {
+                hero.Move("left");
+            }
+
+            if(rightArrowDown)
+            {
+                hero.Move("right");
+            }
+            if (upArrowDown)
+            {
+                hero.Move("up");
+            }
+            if (downArrowDown)
+            {
+                hero.Move("down");
+            }
+
+            //Check for collision between hero and boxes
+            foreach (Box b in boxes)
+            {
+                //if (hasCollided == true)
+                //{
+                //    gameLoop.Stop();
+                //}
+                if (hero.Collision(b))
+                {
+                    gameLoop.Stop();
+                }
+            }
+
+            //check top wall
+            if (hero.
+            {
+                //hero.y = hero.y + 5;
+                //move hero down with heros move behaviour
+            }
+
+            Refresh();
+        }
+
+        private void colorLoop_Tick(object sender, EventArgs e)
+        {
+            colorCounter++;
 
             if (newBoxCounter == 8)
             {
@@ -210,44 +255,8 @@ namespace BoxField
 
                 boxBrush.Color = Color.FromArgb(255, red, blue, green);
 
-                newBoxCounter = 0;
+                colorCounter = 0;
             }
-
-            if (boxes[0].y > this.Height) 
-            {
-                boxes.RemoveAt(0);
-            }
-
-            //move our hero
-            if(leftArrowDown == true)
-            {
-                hero.Move("left");
-            }
-
-            if(rightArrowDown)
-            {
-                hero.Move("right");
-            }
-
-            //Check for collision between hero and boxes
-            foreach (Box b in boxes)
-            {
-                //Boolean hasCollided = false;
-
-                //hasCollided = hero.Collision(b);
-
-                //if (hasCollided == true)
-                //{
-                //    gameLoop.Stop();
-                //}
-                if (hero.Collision(b))
-                {
-                    gameLoop.Stop();
-                }
-            }
-         
-
-            Refresh();
         }
 
         private void GameScreen_Paint(object sender, PaintEventArgs e)
