@@ -15,20 +15,22 @@ namespace BoxField
     {
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, downArrowDown, rightArrowDown, upArrowDown, bDown, nDown, mDown, spaceDown;
+        Boolean leftArrowUp, downArrowUp, rightArrowUp, upArrowUp;
         //used to draw boxes on screen
         public static SolidBrush boxBrush = new SolidBrush(Color.White);
 
         //List to hold a column of boxes
-        List<Box> boxes = new List<Box>();
+        List<Box> rightBoxes = new List<Box>();
+        List<Box> leftBoxes = new List<Box>();
         List<Wall> walls = new List<Wall>();
-        Box topWall, bottomWall;
+        Wall topWall, bottomWall;
 
         //Box Values
-        public int boxSize, boxSpeed, newBoxCounter, colorCounter, color, red, green, blue;
+        public int boxSize, boxSpeed1, boxSpeed2, boxSpeed3, newBoxCounter, colorCounter, color, red, green, blue;
 
-            //hero Character
-        Box hero;
-        int heroSpeed, heroColor;
+        //hero Character
+       Box hero;
+       public int heroSpeed, heroColor;
         
         public GameScreen()
         {
@@ -42,20 +44,23 @@ namespace BoxField
         public void OnStart()
         {
             boxSize = 20;
-            boxSpeed = 5;
+            boxSpeed1 = 5;
+            boxSpeed2 = 8;
+            boxSpeed3 = 12;
             newBoxCounter = 0;
             colorCounter = 0;
 
-            Box b1 = new Box(-40, 100, boxSize, boxSpeed);
-            Wall topWall = new Wall(-40, 0, 900, 5);
-            Wall bottomWall = new Wall(-40, 400, 900, 5);
-            boxes.Add(b1);
+            Box b1 = new Box(-40, 100, boxSize, boxSpeed1);
+            Box b2 = new Box(-40, 50, boxSize, boxSpeed2);
+            Box b3 = new Box(-40, 300, boxSize, boxSpeed3);
+            Box b4 = new Box(1000, 200, boxSize, boxSpeed3);
 
-       //     Box b2 = new Box(500, -40, boxSize, boxSpeed);
-       //     boxes.Add(b2);
+            topWall = new Wall(-40, 0, 950, 5);
+            bottomWall = new Wall(-40, 495, 950, 5);
+            leftBoxes.Add(b1);
 
             //set hero values at start of game
-            heroSpeed = 7;
+            heroSpeed = 2;
             hero = new Box(this.Width / 2 - boxSize / 2, 400, boxSize, heroSpeed);
 
         }
@@ -65,7 +70,33 @@ namespace BoxField
             //player 1 button presses
             switch (e.KeyCode)
             {
-                
+                //case Keys.Left:
+                //    leftArrowDown = false;
+                //    break;
+                //case Keys.Down:
+                //    downArrowDown = false;
+                //    break;
+                //case Keys.Right:
+                //    rightArrowDown = false;
+                //    break;
+                //case Keys.Up:
+                //    upArrowDown = false;
+                //    break;
+                //case Keys.B:
+                //    bDown = false;
+                //    break;
+                //case Keys.N:
+                //    nDown = false;
+                //    break;
+                //case Keys.M:
+                //    mDown = false;
+                //    break;
+                //case Keys.Space:
+                //    spaceDown = false;
+                //    break;
+                //default:
+                //    break;
+
                 case Keys.Left:
                     leftArrowDown = true;
                     break;
@@ -100,6 +131,33 @@ namespace BoxField
             //player 1 button releases
             switch (e.KeyCode)
             {
+                //case Keys.Left:
+                //    leftArrowDown = true;
+                //    break;
+                //case Keys.Down:
+                //    downArrowDown = true;
+                //    break;
+                //case Keys.Right:
+                //    rightArrowDown = true;
+                //    break;
+                //case Keys.Up:
+                //    upArrowDown = true;
+                //    break;
+                //case Keys.B:
+                //    bDown = true;
+                //    break;
+                //case Keys.N:
+                //    nDown = true;
+                //    break;
+                //case Keys.M:
+                //    mDown = true;
+                //    break;
+                //case Keys.Space:
+                //    spaceDown = true;
+                //    break;
+                //default:
+                //    break;
+
                 case Keys.Left:
                     leftArrowDown = false;
                     break;
@@ -132,28 +190,44 @@ namespace BoxField
         private void gameLoop_Tick(object sender, EventArgs e)
         {
             //update location of all boxes (drop down screen)
-            foreach (Box b in boxes)
+            foreach (Box b in leftBoxes)
             {
-                b.Move(); 
+                b.leftMove(); 
+            }
+
+            foreach (Box b in rightBoxes)
+            {
+                b.rightMove();
             }
 
             //add new box if it is time
 
             newBoxCounter++;
 
-            if (newBoxCounter == 50)
+            if (newBoxCounter == 60)
             {
-                Box b1 = new Box(0, 100, boxSize, boxSpeed);
-                boxes.Add(b1);
+                Box b1 = new Box(-40, 100, boxSize, boxSpeed3);
+                Box b2 = new Box(-40, 130, boxSize, boxSpeed2);
+                Box b3 = new Box(-40, 300, boxSize, boxSpeed1);
+                Box b4 = new Box(1000, 200, boxSize, boxSpeed3);
 
+                leftBoxes.Add(b1);
+                leftBoxes.Add(b2);
+                leftBoxes.Add(b3);
+                rightBoxes.Add(b4);
                 newBoxCounter = 0;
             }
 
-            if (boxes[0].x > this.Width - 20) 
+            if (leftBoxes[0].x > this.Width - 20) 
             {
-                boxes.RemoveAt(0);
+                leftBoxes.RemoveAt(0);
             }
-            
+
+            if (rightBoxes[0].x < -20)
+            {
+                rightBoxes.RemoveAt(0);
+            }
+
             //hero collison with the sides of the screen
             if (hero.x < -40)
             {
@@ -170,7 +244,7 @@ namespace BoxField
                 hero.Move("left");
             }
 
-            if(rightArrowDown)
+            if (rightArrowDown)
             {
                 hero.Move("right");
             }
@@ -184,23 +258,33 @@ namespace BoxField
             }
 
             //Check for collision between hero and boxes
-            foreach (Box b in boxes)
+            foreach (Box b in leftBoxes)
             {
-                //if (hasCollided == true)
-                //{
-                //    gameLoop.Stop();
-                //}
                 if (hero.Collision(b))
                 {
-                    gameLoop.Stop();
+                    GameoverScreen gos = new GameoverScreen();
+                    this.Controls.Add(gos);
+                }
+            }
+
+            foreach (Box b in rightBoxes)
+            {
+                if (hero.Collision(b))
+                {
+                    GameoverScreen gos = new GameoverScreen();
+                    this.Controls.Add(gos);
                 }
             }
 
             //check top wall
-            if (hero.
+            if (hero.wallCollision(topWall))
             {
-                //hero.y = hero.y + 5;
-                //move hero down with heros move behaviour
+                hero.Move("down");
+            }
+            //check bottom wall
+            if (hero.wallCollision(bottomWall))
+            {
+                hero.Move("up");
             }
 
             Refresh();
@@ -263,10 +347,15 @@ namespace BoxField
         {
             //draw boxes to screen
 
-            foreach (Box b in boxes)
+            foreach (Box b in leftBoxes)
             {
                 e.Graphics.FillRectangle(boxBrush, b.x, b.y, b.size, b.size);
                 e.Graphics.FillEllipse(boxBrush, hero.x, hero.y, hero.size, hero.size);
+            }
+
+            foreach (Box b in rightBoxes)
+            {
+                e.Graphics.FillRectangle(boxBrush, b.x, b.y, b.size, b.size);
             }
         }
     }

@@ -23,9 +23,14 @@ namespace BoxField
             size = _size;
             speed = _speed;
         }
-        public void Move()
+        public void leftMove()
         {
             x = x + speed;
+        }
+
+        public void rightMove()
+        {
+            x = x - speed;
         }
 
         public void moveDirection()
@@ -42,7 +47,6 @@ namespace BoxField
                 x = x - 30;
             }
 
-
             direction = 0;
         }
 
@@ -50,20 +54,20 @@ namespace BoxField
         {
             if (direction == "left")
             {
-                x = x - speed;
+                x = x - 3;
             }
 
             if (direction == "right")
             {
-                x = x + speed;
+                x = x + 3;
             }
             if (direction == "up")
             {
-                y = y - speed;
+                y = y - 3;
             }
             if (direction == "down")
             {
-                y = y + speed;
+                y = y + 3;
             }
         }
 
@@ -73,6 +77,16 @@ namespace BoxField
             Rectangle heroRec = new Rectangle(x, y, size, size); 
 
             return boxRec.IntersectsWith(heroRec);
+        }
+
+        public Boolean wallCollision(Wall w)
+        {
+            Rectangle heroRec = new Rectangle(x, y, size, size);
+            Rectangle wallRec = new Rectangle(w.x, w.y, w.width, w.height);
+     
+
+            return heroRec.IntersectsWith(wallRec);
+            //return frogRec.IntersectsWith(bottomWall);
         }
     }
 }
