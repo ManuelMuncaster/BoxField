@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Media;
 
 namespace BoxField
 {
@@ -23,14 +24,14 @@ namespace BoxField
         List<Box> rightBoxes = new List<Box>();
         List<Box> leftBoxes = new List<Box>();
         List<Wall> walls = new List<Wall>();
-        Wall topWall, bottomWall;
+        Wall topWall, bottomWall, victoryWall;
 
         //Box Values
         public int boxSize, boxSpeed1, boxSpeed2, boxSpeed3, newBoxCounter, colorCounter, color, red, green, blue;
-
+        public string score;
         //hero Character
-       Box hero;
-       public int heroSpeed, heroColor;
+        Box hero;
+        public int heroSpeed, heroColor;
         
         public GameScreen()
         {
@@ -57,7 +58,10 @@ namespace BoxField
 
             topWall = new Wall(-40, 0, 950, 5);
             bottomWall = new Wall(-40, 495, 950, 5);
+            victoryWall = new Wall(-40, 20, 950, 5);
+
             leftBoxes.Add(b1);
+            rightBoxes.Add(b4);
 
             //set hero values at start of game
             heroSpeed = 2;
@@ -206,6 +210,7 @@ namespace BoxField
 
             if (newBoxCounter == 60)
             {
+                //creating all of the boxes on the screen and adding them to lists.
                 Box b1 = new Box(-40, 100, boxSize, boxSpeed3);
                 Box b2 = new Box(-40, 130, boxSize, boxSpeed2);
                 Box b3 = new Box(-40, 300, boxSize, boxSpeed1);
@@ -217,15 +222,23 @@ namespace BoxField
                 rightBoxes.Add(b4);
                 newBoxCounter = 0;
             }
-
-            if (leftBoxes[0].x > this.Width - 20) 
+            //Removing boxes after they leave the screen
+            foreach (Box b in leftBoxes)
             {
-                leftBoxes.RemoveAt(0);
+                if (leftBoxes[0].x > this.Width - 20)
+                {
+                    leftBoxes.RemoveAt(0);
+                    break;
+                }
             }
 
-            if (rightBoxes[0].x < -20)
+            foreach (Box b in rightBoxes)
             {
-                rightBoxes.RemoveAt(0);
+                if (rightBoxes[0].x < -20)
+                {
+                    rightBoxes.RemoveAt(0);
+                    break;
+                }
             }
 
             //hero collison with the sides of the screen
@@ -242,19 +255,41 @@ namespace BoxField
             if(leftArrowDown == true)
             {
                 hero.Move("left");
+                leftArrowDown = false;
+            }
+            if (leftArrowUp == true)
+            {
+                leftArrowDown = true;
             }
 
-            if (rightArrowDown)
+            if (rightArrowDown == true)
             {
                 hero.Move("right");
+                rightArrowDown = false;
             }
-            if (upArrowDown)
+            if (rightArrowDown == true)
+            {
+                rightArrowDown = true;
+            }
+
+            if (upArrowDown == true)
             {
                 hero.Move("up");
+                upArrowDown = false;
             }
-            if (downArrowDown)
+            if (upArrowUp == true)
+            {
+                upArrowUp = true;
+            }
+
+            if (downArrowDown == true)
             {
                 hero.Move("down");
+                downArrowDown = false;
+            }
+            if (downArrowUp == true)
+            {
+                downArrowUp = true;
             }
 
             //Check for collision between hero and boxes
@@ -262,6 +297,8 @@ namespace BoxField
             {
                 if (hero.Collision(b))
                 {
+                    SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
+                    player1.Play();
                     GameoverScreen gos = new GameoverScreen();
                     this.Controls.Add(gos);
                 }
@@ -271,6 +308,8 @@ namespace BoxField
             {
                 if (hero.Collision(b))
                 {
+                    SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
+                    player1.Play();
                     GameoverScreen gos = new GameoverScreen();
                     this.Controls.Add(gos);
                 }
@@ -285,6 +324,15 @@ namespace BoxField
             if (hero.wallCollision(bottomWall))
             {
                 hero.Move("up");
+            }
+            //check victory wall
+            if (hero.wallCollision(victoryWall))
+            {
+                SoundPlayer player2 = new SoundPlayer(Properties.Resources.victory);
+                player2.Play();
+                Thread.Sleep(1500);
+                victoryScreen vs = new victoryScreen();
+                this.Controls.Add(vs);
             }
 
             Refresh();

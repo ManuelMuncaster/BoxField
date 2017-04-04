@@ -54,20 +54,19 @@ namespace BoxField
         {
             if (direction == "left")
             {
-                x = x - 3;
+                x = x - 30;
             }
-
             if (direction == "right")
             {
-                x = x + 3;
+                x = x + 30;
             }
             if (direction == "up")
             {
-                y = y - 3;
+                y = y - 30;
             }
             if (direction == "down")
             {
-                y = y + 3;
+                y = y + 30;
             }
         }
 

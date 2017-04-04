@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using System.Threading;
 
 namespace BoxField
 {
@@ -25,6 +27,9 @@ namespace BoxField
             gameoverLabel.Visible = false;
             continueButton.Visible = false;
             exitButton2.Visible = false;
+
+            SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
+            player1.Play();
         }
 
         private void exitButton2_Click(object sender, EventArgs e)
