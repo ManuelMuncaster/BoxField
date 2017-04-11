@@ -19,6 +19,7 @@ namespace BoxField
         Boolean leftArrowUp, downArrowUp, rightArrowUp, upArrowUp;
         //used to draw boxes on screen
         public static SolidBrush boxBrush = new SolidBrush(Color.White);
+        Font drawFont = new Font("Courier", 16, FontStyle.Bold);
 
         //List to hold a column of boxes
         List<Box> rightBoxes = new List<Box>();
@@ -28,7 +29,8 @@ namespace BoxField
 
         //Box Values
         public int boxSize, boxSpeed1, boxSpeed2, boxSpeed3, newBoxCounter, colorCounter, color, red, green, blue;
-        public string score;
+        public int score1 = 000000;
+        public static string score2;
         //hero Character
         Box hero;
         public int heroSpeed, heroColor;
@@ -55,6 +57,8 @@ namespace BoxField
             Box b2 = new Box(-40, 50, boxSize, boxSpeed2);
             Box b3 = new Box(-40, 300, boxSize, boxSpeed3);
             Box b4 = new Box(1000, 200, boxSize, boxSpeed3);
+            Box b5 = new Box(1000, 100, boxSize, boxSpeed2);
+            Box b6 = new Box(1000, 350, boxSize, boxSpeed1);
 
             topWall = new Wall(-40, 0, 950, 5);
             bottomWall = new Wall(-40, 495, 950, 5);
@@ -215,11 +219,15 @@ namespace BoxField
                 Box b2 = new Box(-40, 130, boxSize, boxSpeed2);
                 Box b3 = new Box(-40, 300, boxSize, boxSpeed1);
                 Box b4 = new Box(1000, 200, boxSize, boxSpeed3);
+                Box b5 = new Box(1000, 250, boxSize, boxSpeed2);
+                Box b6 = new Box(1000, 350, boxSize, boxSpeed1);
 
                 leftBoxes.Add(b1);
                 leftBoxes.Add(b2);
                 leftBoxes.Add(b3);
                 rightBoxes.Add(b4);
+                rightBoxes.Add(b5);
+                rightBoxes.Add(b6);
                 newBoxCounter = 0;
             }
             //Removing boxes after they leave the screen
@@ -276,6 +284,7 @@ namespace BoxField
             {
                 hero.Move("up");
                 upArrowDown = false;
+                score1++;
             }
             if (upArrowUp == true)
             {
@@ -286,6 +295,7 @@ namespace BoxField
             {
                 hero.Move("down");
                 downArrowDown = false;
+                score1--;
             }
             if (downArrowUp == true)
             {
@@ -393,7 +403,9 @@ namespace BoxField
 
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
+            score2 = score1.ToString();
             //draw boxes to screen
+            e.Graphics.DrawString(score2, drawFont, boxBrush, 20, 20);
 
             foreach (Box b in leftBoxes)
             {

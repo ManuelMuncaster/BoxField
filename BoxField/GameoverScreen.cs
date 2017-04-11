@@ -17,6 +17,7 @@ namespace BoxField
         public GameoverScreen()
         {
             InitializeComponent();
+            GameScreen.score2 = scoreLabel.Text;
         }
 
         private void continueButton_Click(object sender, EventArgs e)

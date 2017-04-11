@@ -31,6 +31,8 @@
             this.continueButton = new System.Windows.Forms.Button();
             this.exitButton2 = new System.Windows.Forms.Button();
             this.gameoverLabel = new System.Windows.Forms.Label();
+            this.scoreTitle = new System.Windows.Forms.Label();
+            this.scoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // continueButton
@@ -57,17 +59,39 @@
             // 
             this.gameoverLabel.AutoSize = true;
             this.gameoverLabel.ForeColor = System.Drawing.Color.White;
-            this.gameoverLabel.Location = new System.Drawing.Point(415, 170);
+            this.gameoverLabel.Location = new System.Drawing.Point(423, 122);
             this.gameoverLabel.Name = "gameoverLabel";
             this.gameoverLabel.Size = new System.Drawing.Size(64, 13);
             this.gameoverLabel.TabIndex = 2;
             this.gameoverLabel.Text = "Game Over!";
+            // 
+            // scoreTitle
+            // 
+            this.scoreTitle.AutoSize = true;
+            this.scoreTitle.ForeColor = System.Drawing.Color.White;
+            this.scoreTitle.Location = new System.Drawing.Point(400, 167);
+            this.scoreTitle.Name = "scoreTitle";
+            this.scoreTitle.Size = new System.Drawing.Size(38, 13);
+            this.scoreTitle.TabIndex = 3;
+            this.scoreTitle.Text = "Score:";
+            // 
+            // scoreLabel
+            // 
+            this.scoreLabel.AutoSize = true;
+            this.scoreLabel.ForeColor = System.Drawing.Color.White;
+            this.scoreLabel.Location = new System.Drawing.Point(444, 167);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(35, 13);
+            this.scoreLabel.TabIndex = 4;
+            this.scoreLabel.Text = "label1";
             // 
             // GameoverScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.scoreLabel);
+            this.Controls.Add(this.scoreTitle);
             this.Controls.Add(this.gameoverLabel);
             this.Controls.Add(this.exitButton2);
             this.Controls.Add(this.continueButton);
@@ -83,5 +107,7 @@
         private System.Windows.Forms.Button continueButton;
         private System.Windows.Forms.Button exitButton2;
         private System.Windows.Forms.Label gameoverLabel;
+        private System.Windows.Forms.Label scoreTitle;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }
