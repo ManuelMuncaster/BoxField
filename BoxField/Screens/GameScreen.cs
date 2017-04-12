@@ -295,7 +295,7 @@ namespace BoxField
             {
                 hero.Move("down");
                 downArrowDown = false;
-                score1--;
+                score1 = score1 - 2;
             }
             if (downArrowUp == true)
             {

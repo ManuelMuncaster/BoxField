@@ -17,7 +17,7 @@ namespace BoxField
         public GameoverScreen()
         {
             InitializeComponent();
-            GameScreen.score2 = scoreLabel.Text;
+            scoreLabel.Text = GameScreen.score2;
         }
 
         private void continueButton_Click(object sender, EventArgs e)
@@ -28,6 +28,8 @@ namespace BoxField
             gameoverLabel.Visible = false;
             continueButton.Visible = false;
             exitButton2.Visible = false;
+            scoreTitle.Visible = false;
+            scoreLabel.Visible = false;
 
             SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
             player1.Play();
