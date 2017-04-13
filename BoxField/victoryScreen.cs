@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Media;
 namespace BoxField
 {
     public partial class victoryScreen : UserControl
@@ -16,6 +16,8 @@ namespace BoxField
         {
             InitializeComponent();
             scoreOutput.Text = GameScreen.score2;
+            SoundPlayer player2 = new SoundPlayer(Properties.Resources.victory);
+            player2.Play();
         }
 
         private void restartButton_Click(object sender, EventArgs e)

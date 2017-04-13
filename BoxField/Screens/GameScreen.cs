@@ -20,11 +20,12 @@ namespace BoxField
         //used to draw boxes on screen
         public static SolidBrush boxBrush = new SolidBrush(Color.White);
         Font drawFont = new Font("Courier", 16, FontStyle.Bold);
+        SoundPlayer squashPlayer = new SoundPlayer(Properties.Resources.squash);
 
         //List to hold a column of boxes
-        List<Box> rightBoxes = new List<Box>();
-        List<Box> leftBoxes = new List<Box>();
-        List<Wall> walls = new List<Wall>();
+        public static List<Box> rightBoxes = new List<Box>();
+        public static List<Box> leftBoxes = new List<Box>();
+        public static List<Wall> walls = new List<Wall>();
         Wall topWall, bottomWall, victoryWall;
 
         //Box Values
@@ -70,6 +71,8 @@ namespace BoxField
             //set hero values at start of game
             heroSpeed = 2;
             hero = new Box(this.Width / 2 - boxSize / 2, 400, boxSize, heroSpeed);
+
+            //hopPlayer.Play();
 
         }
 
@@ -275,7 +278,7 @@ namespace BoxField
                 hero.Move("right");
                 rightArrowDown = false;
             }
-            if (rightArrowDown == true)
+            if (rightArrowUp == true)
             {
                 rightArrowDown = true;
             }
@@ -307,10 +310,13 @@ namespace BoxField
             {
                 if (hero.Collision(b))
                 {
-                    SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
-                    player1.Play();
+                    squashPlayer.Play();
+
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+
                     GameoverScreen gos = new GameoverScreen();
-                    this.Controls.Add(gos);
+                    f.Controls.Add(gos);
                 }
             }
 
@@ -318,10 +324,14 @@ namespace BoxField
             {
                 if (hero.Collision(b))
                 {
-                    SoundPlayer player1 = new SoundPlayer(Properties.Resources.squash);
-                    player1.Play();
+                    squashPlayer.Play();
+
+                    gameLoop.Enabled = false;
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+
                     GameoverScreen gos = new GameoverScreen();
-                    this.Controls.Add(gos);
+                    f.Controls.Add(gos);
                 }
             }
 
@@ -338,11 +348,14 @@ namespace BoxField
             //check victory wall
             if (hero.wallCollision(victoryWall))
             {
-                SoundPlayer player2 = new SoundPlayer(Properties.Resources.victory);
-                player2.Play();
                 Thread.Sleep(1500);
+
+                gameLoop.Enabled = false;
+                Form f = this.FindForm();
+                f.Controls.Remove(this);
+
                 victoryScreen vs = new victoryScreen();
-                this.Controls.Add(vs);
+                f.Controls.Add(vs);
             }
 
             Refresh();

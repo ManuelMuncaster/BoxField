@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Media;
 
 namespace BoxField
 {
@@ -55,6 +56,7 @@ namespace BoxField
             if (direction == "left")
             {
                 x = x - 30;
+               // hopPlayer.Play();
             }
             if (direction == "right")
             {

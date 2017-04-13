@@ -24,12 +24,19 @@ namespace BoxField
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            GameScreen gs = new GameScreen();
-            this.Controls.Add(gs);
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
 
-            titleLabel.Visible = false;
-            startButton.Visible = false;
-            exitButton.Visible = false;
+            GameScreen gs = new GameScreen();
+            f.Controls.Add(gs);
+
+            gs.Focus();
+
+            //titleLabel.Visible = false;
+            //startButton.Visible = false;
+            //exitButton.Visible = false;
+
+
         }
 
         private void exitButton_Click(object sender, EventArgs e)

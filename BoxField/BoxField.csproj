@@ -117,13 +117,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hop.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\squash.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\victory.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hop.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dp_frogger_hop.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

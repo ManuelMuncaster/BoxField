@@ -22,8 +22,11 @@ namespace BoxField
 
         private void continueButton_Click(object sender, EventArgs e)
         {
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+
             MainScreen ms = new MainScreen();
-            this.Controls.Add(ms);
+            f.Controls.Add(ms);
 
             gameoverLabel.Visible = false;
             continueButton.Visible = false;
