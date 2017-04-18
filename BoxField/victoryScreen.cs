@@ -22,8 +22,11 @@ namespace BoxField
 
         private void restartButton_Click(object sender, EventArgs e)
         {
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+
             MainScreen ms = new MainScreen();
-            this.Controls.Add(ms);
+            f.Controls.Add(ms);
 
             victoryLabel.Visible = false;
             restartButton.Visible = false;

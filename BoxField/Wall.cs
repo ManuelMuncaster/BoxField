@@ -18,7 +18,5 @@ namespace BoxField
             width = _width;
             height = _height;
         }
-
-
     }
 }

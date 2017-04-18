@@ -11,7 +11,6 @@ namespace BoxField
     public class Box
     {
         public int x, y, size, speed, color, red, blue, green, direction, width, height;
-
         /// <summary>
         /// Bob the Builder method for a ball object
         /// </summary>
@@ -56,7 +55,6 @@ namespace BoxField
             if (direction == "left")
             {
                 x = x - 30;
-               // hopPlayer.Play();
             }
             if (direction == "right")
             {
@@ -84,10 +82,8 @@ namespace BoxField
         {
             Rectangle heroRec = new Rectangle(x, y, size, size);
             Rectangle wallRec = new Rectangle(w.x, w.y, w.width, w.height);
-     
 
             return heroRec.IntersectsWith(wallRec);
-            //return frogRec.IntersectsWith(bottomWall);
         }
     }
 }

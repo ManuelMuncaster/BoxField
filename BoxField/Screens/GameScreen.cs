@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Created by: Manuel Muncaster
+//Date: March 23, 2017
+//Purpose: Basic game using classes
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -71,9 +74,6 @@ namespace BoxField
             //set hero values at start of game
             heroSpeed = 2;
             hero = new Box(this.Width / 2 - boxSize / 2, 400, boxSize, heroSpeed);
-
-            //hopPlayer.Play();
-
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -81,33 +81,6 @@ namespace BoxField
             //player 1 button presses
             switch (e.KeyCode)
             {
-                //case Keys.Left:
-                //    leftArrowDown = false;
-                //    break;
-                //case Keys.Down:
-                //    downArrowDown = false;
-                //    break;
-                //case Keys.Right:
-                //    rightArrowDown = false;
-                //    break;
-                //case Keys.Up:
-                //    upArrowDown = false;
-                //    break;
-                //case Keys.B:
-                //    bDown = false;
-                //    break;
-                //case Keys.N:
-                //    nDown = false;
-                //    break;
-                //case Keys.M:
-                //    mDown = false;
-                //    break;
-                //case Keys.Space:
-                //    spaceDown = false;
-                //    break;
-                //default:
-                //    break;
-
                 case Keys.Left:
                     leftArrowDown = true;
                     break;
@@ -142,33 +115,6 @@ namespace BoxField
             //player 1 button releases
             switch (e.KeyCode)
             {
-                //case Keys.Left:
-                //    leftArrowDown = true;
-                //    break;
-                //case Keys.Down:
-                //    downArrowDown = true;
-                //    break;
-                //case Keys.Right:
-                //    rightArrowDown = true;
-                //    break;
-                //case Keys.Up:
-                //    upArrowDown = true;
-                //    break;
-                //case Keys.B:
-                //    bDown = true;
-                //    break;
-                //case Keys.N:
-                //    nDown = true;
-                //    break;
-                //case Keys.M:
-                //    mDown = true;
-                //    break;
-                //case Keys.Space:
-                //    spaceDown = true;
-                //    break;
-                //default:
-                //    break;
-
                 case Keys.Left:
                     leftArrowDown = false;
                     break;
@@ -263,11 +209,12 @@ namespace BoxField
             }
 
             //move our hero
-            if(leftArrowDown == true)
+            if (leftArrowDown == true)
             {
                 hero.Move("left");
                 leftArrowDown = false;
             }
+
             if (leftArrowUp == true)
             {
                 leftArrowDown = true;
@@ -278,6 +225,7 @@ namespace BoxField
                 hero.Move("right");
                 rightArrowDown = false;
             }
+
             if (rightArrowUp == true)
             {
                 rightArrowDown = true;
@@ -289,6 +237,7 @@ namespace BoxField
                 upArrowDown = false;
                 score1++;
             }
+
             if (upArrowUp == true)
             {
                 upArrowUp = true;
@@ -300,6 +249,7 @@ namespace BoxField
                 downArrowDown = false;
                 score1 = score1 - 2;
             }
+
             if (downArrowUp == true)
             {
                 downArrowUp = true;
@@ -312,6 +262,7 @@ namespace BoxField
                 {
                     squashPlayer.Play();
 
+                    gameLoop.Enabled = false;
                     Form f = this.FindForm();
                     f.Controls.Remove(this);
 
@@ -360,7 +311,7 @@ namespace BoxField
 
             Refresh();
         }
-
+        //Used to change the colors of the boxes and Frogger
         private void colorLoop_Tick(object sender, EventArgs e)
         {
             colorCounter++;
@@ -407,17 +358,16 @@ namespace BoxField
                     blue = 0;
                     green = 255;
                 }
-
                 boxBrush.Color = Color.FromArgb(255, red, blue, green);
-
                 colorCounter = 0;
             }
         }
 
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
+            //Converting int score to string score
             score2 = score1.ToString();
-            //draw boxes to screen
+            //draw boxes and score to the screen
             e.Graphics.DrawString(score2, drawFont, boxBrush, 20, 20);
 
             foreach (Box b in leftBoxes)
